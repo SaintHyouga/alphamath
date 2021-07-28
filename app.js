@@ -395,5 +395,5 @@ app.all('/qTeacher', (req, res) => {
 ///////////////////////////////////// สิ้นสุดจัดชุดข้อสอบ /////////////////////////////
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:3000`);
+  console.log(`Example app listening at http://localhost:${port}`);
 });
