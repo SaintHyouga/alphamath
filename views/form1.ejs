@@ -1,0 +1,15 @@
+<%- include('beforepart.ejs') %>
+<a class="btn btn-primary text-white" href="/">Back</a><br />
+    <form class='form' action="/postform" method="POST">
+        <label>
+            <span>Firstname : </span>
+            <input type="text" name="firstname" value="" />
+        </label>
+        <label>
+            <span>Lastname : </span>
+            <input type="text" name="lastname" value="" />
+        </label>
+        <input type="submit" value="submit" />
+    </form>
+
+  <%- include('afterpart.ejs') %>

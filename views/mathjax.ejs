@@ -1,0 +1,26 @@
+<%- include('beforepart1.ejs') %>
+      <!-- Main component for a primary marketing message or call to action -->
+      <div class="jumbotron">
+      <h1 class="text-success">Test MathJax</h1>
+      \(\sum_{n=1}^\infty \frac{1}{n^6+1} = \frac{\pi}{6}\left( \frac{\sinh\pi + \sqrt 3\sin\pi\sqrt 3}{\cosh\pi - \cos\pi\sqrt 3}\right)\)
+      <br />
+      \[\sum_{n=1}^\infty \frac{1}{n^6+1} = \frac{\pi}{6}\left( \frac{\sinh\pi + \sqrt 3\sin\pi\sqrt 3}{\cosh\pi - \cos\pi\sqrt 3}\right)\]
+      <br />
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>ลำดับที่</th>
+            <th>สมการ</th>
+            </tr>
+          </thead>
+      <% items.forEach(item => {%>
+        <tr>
+          <td><%= item.itemId %></td>
+          <td>นี่คือการแทรกภาษาไทย $<%= item.itemContent %>$</td>
+          </tr>
+      <%});%>
+      </table>
+      <br / />
+
+      </div>
+<%- include('afterpart1.ejs') %>

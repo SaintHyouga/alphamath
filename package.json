@@ -1,0 +1,21 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "My App",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./node_modules/parcel-bundler/bin/cli.js public/index.js --out-dir public/dist"
+  },
+  "dependencies": {
+    "ejs": "^2.6.2",
+    "express": "^4.17.1",
+    "mysql2": "^2.2.5",
+    "express-session": "^1.17.0",
+    "cookie-parser": "^1.4.5",
+    "nodemon": "^2.0.7"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,119 @@
+<%- include('beforepart1.ejs') %>
+<%- include('beforepart2.ejs') %>
+<style>
+button{
+  margin:2px;
+}
+</style>
+<br />
+<div style="margin-left:20px">
+<h3 class="text-success">:: จัดการเอกสาร :: &nbsp;&nbsp;</h3>
+<% if(curPresent==0){curPresent="ไม่มี";} %>
+<%= "userId:"+userId %>
+<%= "หมายเลขเอกสารที่กำลังนำเสนอ : "+curPresent %>
+<form method="post" action="/qTeacher">
+  ตัวเลือกในการค้นหา<br />
+  <select id="optSearch" name="optSearch">
+  <%
+  options = ["","หมายเลขข้อสอบ","คำสำคัญ"];
+  for (var i = 1; i <=2; i++ )
+  {
+      %><option value="<%= i %>" <%= ( optSearch == i ) ? "selected" : ""; %>><%=options[i] %></option><%
+  }
+  %>
+  </select>
+  &nbsp;
+   <input name="curItem" value="<%= curItem %>" type="text"/>
+   <button class="btn btn-primary" type="submit">ค้นหา</button>
+  </form>
+  </div>
+  <table style="width:1340px" class="table table-bordered table-responsive">
+    <thead>
+      <tr>
+        <th class="text-center" style="width:80px">หมายเลขเอกสาร</th>
+        <th class="text-center" style="width:80px">การจัดการ</th>
+        <th class="text-center" style="width:140px">คำสำคัญ</th>
+        <th class="text-center" style="width:60px">ผู้สร้าง</th>
+        <th class="text-center" style="width:1000px">เนื้อหา</th>
+        </tr>
+      </thead>
+  <% items.forEach(item => {%>
+    <tr>
+      <td class="text-right"><%= item.itemId %></td>
+      <td>
+
+        <% if(userId == item.itemCreator){%>
+          <button onclick="editItem(<%= item.itemId %>)" class="btn text-white btn-warning btn-sm">&nbsp;&nbsp;แก้ไข&nbsp;&nbsp;</button>
+          <% if(curPresent==item.itemId){%>
+                <button onclick="cancelPresent()" class="btn text-white btn-danger btn-sm">ยกเลิกการนำเสนอ</button>
+          <%}else{%>
+                <button onclick="toPresent(<%= item.itemId %>)" class="btn text-white btn-success btn-sm">นำเสนอ</button>
+          <%}%>
+               <button onclick="delItem(<%= item.itemId %>)" class="btn text-white btn-danger btn-sm">&nbsp;&nbsp;&nbsp;ลบ&nbsp;&nbsp;&nbsp;&nbsp;</button>
+
+        <%}else{%>
+            <% if(curPresent==item.itemId){%>
+                  <button onclick="cancelPresent()" class="btn text-white btn-danger btn-sm">ยกเลิกการนำเสนอ</button>
+            <%}else{%>
+                  <button onclick="toPresent(<%= item.itemId %>)" class="btn text-white btn-success btn-sm">นำเสนอ</button>
+            <%}%>
+                 <button onclick="copyItem(<%= item.itemId %>)" class="btn text-white btn-danger btn-sm">คัดลอก</button>
+        <%}%>
+
+        </td>
+      <td class="text-center"><%= item.itemTag %></td>
+      <td class="text-center">$ \alpha $<%= item.itemCreator %></td>
+      <td><%- item.itemContent.replace(/@@/ig,"\\").replace(/@!/ig,"\'") -%></td>
+      </tr>
+  <%});%>
+  </table>
+<form id="sendToEdit" method="post" action="/mbanking">
+  <input type="hidden" name="itemToEdit"/>
+</form>
+
+<form id="toPresent" method="post" action="/qTeacher">
+  <input type="hidden" name="itemPresent"/>
+  <input type="hidden" name="optSearch" value="<%= optSearch %>"/>
+  <input type="hidden" name="curItem" value="<%= curItem %>"/>
+</form>
+
+<form id="cancelPresent" method="post" action="/qTeacher">
+  <input type="hidden" name="cancelPresent" value="1"/>
+  <input type="hidden" name="optSearch" value="<%= optSearch %>"/>
+  <input type="hidden" name="curItem" value="<%= curItem %>"/>
+</form>
+
+<form id="delItem" method="post" action="/qTeacher">
+  <input type="hidden" name="itemToDel" value="1"/>
+  <input type="hidden" name="optSearch" value="<%= optSearch %>"/>
+  <input type="hidden" name="curItem" value="<%= curItem %>"/>
+</form>
+
+<script>
+  function delItem(myId){
+    var a = confirm("คุณต้องการลบเอกสารหมายเลข "+myId+" ใช่หรือไม่?");
+    if(a){
+      //alert("a = "+a);
+      var form1 = document.getElementById('delItem');
+      form1.itemToDel.value = myId;
+      form1.submit();
+    }
+  }
+function editItem(myId){
+  var form1 = document.getElementById('sendToEdit');
+  form1.itemToEdit.value = myId;
+  form1.submit();
+}
+
+function toPresent(myId){
+  var form1 = document.getElementById('toPresent');
+  form1.itemPresent.value = myId;
+  form1.submit();
+}
+function cancelPresent(){
+  var form1 = document.getElementById('cancelPresent');
+  form1.submit();
+}
+
+</script>
+<%- include('afterpart1.ejs') %>

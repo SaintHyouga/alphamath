@@ -1,0 +1,171 @@
+<%- include('beforepart1.ejs') %>
+
+      <!-- Main component for a primary marketing message or call to action -->
+      <style>
+    		.editor
+            {
+    			border:solid 1px #ccc;
+    			padding: 20px;
+    			min-height:200px;
+    			background:white;
+            }
+
+            .sample-toolbar
+            {
+    			border:solid 1px #ddd;
+    			background:blue;
+    			padding: 5px;
+    			border-radius:3px;
+            }
+
+            .sample-toolbar > span
+            {
+    			cursor:pointer;
+    		}
+
+            .sample-toolbar > span:hover
+            {
+    			text-decoration:none;
+    		}
+        a{
+          padding:10px;
+        }
+    	</style>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
+      <div class="jumbotron">
+      <div>
+        <h3 class="text-success">Equation Editor</h3>
+        <span class="text-sm"><span class="text-success text-bold">::ข้อแนะนำ:: </span> 1. แทรกโค้ด $\LaTeX$ ให้ครอบด้วย \$ ... \$ หรือ \$\$ ... \$\$ &nbsp;2. ขึ้นบรรทัดใหม่ ใน \$ ... \$ ให้ใช้ \\ อยู่นอกให้ใช้ <%= "<br/>"%> </span>
+      </div>
+      <form method="post" action="/mathpad">
+        <div class="sample-toolbar">
+          <button class="btn btn-success btn-sm text-white" type="submit">$\triangleright$ RUN </button>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\because ')">$\because$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\therefore ')">$\therefore$</a>
+          <span class="text-white">วงเล็บขยายความสูงได้</span>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\left (  \\right )')">$\left ( ... \right )$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\left [  \\right ]')">$\left [ ... \right ]$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\left \{  \\right \}')">$\left \{ ... \right \}$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\left |  \\right |')">$\left | ... \right |$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\left \\{        \\right. ')">$\left \{ ... \right.$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\left.        \\right \\}')">$\left. ... \right \}$</a>
+          <span style="display:inline-block;verticle-align:center;padding:4px;border:1px solid orange;align:center;"><span class="text-white">สมาชิกเมทริกซ์: </span>
+          <input class= "input-group-sm" maxlength="1" size="1" /> แถว <input maxlength="1" size="1" /> หลัก <a class="btn btn-success btn-sm" href="javascript:void(0)" onclick="">สร้าง</a>
+          </span>
+          <br />
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\not |')">$\not |$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\lfloor  \\rfloor')">$\lfloor x \rfloor$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\lceil  \\rceil')">$\lceil x \rceil$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\binom{}{}')">$\binom{n}{r}$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\wedge')">$\wedge$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\vee')">$\vee$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\sim')">$\sim$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\rightarrow')">$\rightarrow$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\leftrightarrow')">$\leftrightarrow$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\equiv')">$\equiv $</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\not\\equiv')">$\not\equiv $</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\forall')">$\forall $</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\exists')">$\exists $</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\sum')">$\sum $</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\sum_{i = 1}^{n}')">$\sum_{i = 1}^{n} $</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\infty')">$\infty$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\bar{x}')">$\bar{x}$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\mu')">$\mu$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\sigma')">$\sigma$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\hat{y}')">$\hat{y}$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\lim_{x \to n}')">$\lim_{x \to n}$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\lim_{x \to \infty}')">$\lim_{x \to \infty}$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\frac{dy}{dx}')">$\frac{dy}{dx}$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\frac{d}{dx}')">$\frac{d}{dx}$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\int')">$\int$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\int_{a}^{b}')">$\int_{a}^{b}$</a>
+          <br />
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\{  \\}')">$\{ ... \}$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\{ | \\}')">$\{...| ... \}$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\in')">$\in$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\notin')">$\notin$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\subset')">$\subset$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\not \\subset')">$\not\subset$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\cup')">$\cup$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\cap')">$\cap$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\emptyset')">$\emptyset$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\pm')">$\pm$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\times')">$\times$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\cdot')">$\cdot$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\circ')">$\circ$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\^{\\circ}')">$^{\circ}$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\dot{x}')">$\dot{x}$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\theta')">$\theta$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\pi')">$\pi$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\not =')">$\not =$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\leq')">$\leq$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\geq')">$\geq$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('| |')">$|x|$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\^{-1}')">$f^{-1} $</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\sin{x}')">$\sin{x} $</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\arcsin{x}')">$\arcsin{x} $</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\sin^{-1}')">$\sin^{-1} $</a>
+          <br />
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\$  \$')">\$...\$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\$\$  \$\$')">\$\$...\$\$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\,')">เคาะ 2</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\quad')">เคาะ 4</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\')">\\</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('<%="<br/>"%>')"><%="<br/>"%></a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\frac{}{}')">$\frac{A}{B}$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\^2')">$x^2$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\^')">$x^n$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\_')">$x_n$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\sqrt{x}')">$\sqrt{x}$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\sqrt[n]{x}')">$\sqrt[n]{x}$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\overline{}')">$\overline{AB}$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\overrightarrow{}')">$\overrightarrow{AB}$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\overleftrightarrow{}')">$\overleftrightarrow{AB}$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\vec{}')">$\vec{u}$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\parallel')">$\parallel$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\not\\parallel')">$\not\parallel$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\perp')">$\perp$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\not\\perp')">$\not\perp$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\log')">$\log$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\log_n{}')">$\log_n{x}$</a>
+          <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="toInsert('\\ln ')">$\ln x$</a>
+
+      </div>
+
+        <textarea name="txtInput" class="editor" id="sampleeditor" cols="123" rows="6">
+        <%= txtInput %>
+        </textarea>
+        <br /><br />
+      </form><br />
+      <div id="output" class="bg-white pl-5">
+        <br /><br />
+        <%- txtOutput %>
+        <br /><br /><br />
+      </div>
+      <br />
+      <div id="previewImage"></div>
+    <script>
+  		window.addEventListener('load', function(){
+  			document.getElementById('sampleeditor').setAttribute('contenteditable', 'true');
+  			document.getElementById('sampleeditor2').setAttribute('contenteditable', 'true');
+          });
+    </script>
+    <script>
+        function toInsert(txt) {
+            var curPos = document.getElementById("sampleeditor").selectionStart;
+            var x ="";
+            //var curPos = $("#sampleeditor").selectionStart;
+            // ่jquery ใช้ selectionStart ไม่ได้
+            var x = $("#sampleeditor").val();
+            $("#sampleeditor").val(x.slice(0, curPos) + txt + x.slice(curPos));
+
+        }
+    </script>
+      </div>
+      <script src=
+      "https://code.jquery.com/jquery-3.5.1.min.js"
+                      integrity=
+      "sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+                      crossorigin="anonymous">
+            </script>
+<%- include('afterpart1.ejs') %>

@@ -1,0 +1,34 @@
+<html lang="th">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Test Login and Session</title>
+    <style>
+        body{
+          background-color:#72A0C1;
+          margin-top:20px;
+          margin-left: 5%;
+        }
+        h1{
+          color:black;
+        }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  </head>
+  <body>
+<div class="container">
+<h1>Test Login and Session</h1>
+<%= userWarning %>
+<form class="form" name="myLogin" method="post" action="/check_login">
+Username: <input name="username" /><br />
+Password<input name="password" /><br />
+<button type="submit" class="btn btn-primary">เข้าสู่ระบบ</button>
+<br />
+</form>
+</div>
+  </body>
+</html>

@@ -1,0 +1,84 @@
+<%- include('beforepart1.ejs') %>
+<%- include('beforepart2.ejs') %>
+      <div class="jumbotron">
+      <%= "optSearch = "+optSearch+", curItem = "+curItem %>
+      <% if(toPreview != 1){ %>
+              <% txtInput = result[0].itemContent; %>
+              <% var codeUpdate = 0;%>
+              <% itemId = result[0].itemId;itemTag = result[0].itemTag;  %>
+      <% } %>
+
+      <div>
+        <h3 class="text-success"><%= title %> หมายเลข <%= itemId %></h3>
+      </div>
+
+<form method="post" action="/itemEdit">
+    <%- include('myEditor.ejs') %>
+   <input type="hidden" name = "itemId" value="<%= itemId %>" />
+   <input type="hidden" name = "toPreview" value="1" />
+   <input type="hidden" name = "curItem" value="<%= curItem %>" />
+   <input type="hidden" name = "optSearch" value="<%= optSearch %>" />
+</form>
+
+<%# output %>
+<div class="sample-toolbar bg-success">
+  <span class="text-white">ผลลัพธ์ &nbsp;&nbsp; (ต้องการ capture กด Window key + Shift + S)</span>
+</div>
+<div id="output" class="bg-white pl-5">
+  <br />
+  <%- txtInput %>
+  <br /><br />
+</div>
+<br/>
+<%# ส่วนเพิ่มเติม %>
+      <button onClick="toBack()" class="btn btn-warning text-white">กลับ</button>
+      <button onClick="updateEquation()" class="btn btn-primary">บันทึกการเปลี่ยนแปลง</button>
+      <%# "codeUpdate = "+codeUpdate %>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <button onClick="deleteItem()" class="btn btn-danger">ลบคำถาม</button>
+      <form id = "updateForm" name="updateForm" method="post" action="/itemEdit">
+        <input type="hidden" name = "updateCode" value="1"/>
+        <input type="hidden" name = "itemId" value="<%= itemId %>" />
+        <input type="hidden" name = "txtUpdate" />
+        <input type="hidden" name = "itemTag" />
+      </form>
+
+      <form id = "comeBack" name="comeBack" method="post" action="/qTeacher">
+          <input type="hidden" name = "curItem" value="<%= curItem %>" />
+          <input type="hidden" name = "optSearch" value="<%= optSearch %>" />
+      </form>
+
+<script>
+  function toBack(){
+      var myForm = document.getElementById("comeBack");
+      var curItem = myForm.curItem.value;
+      var optSearch = myForm.optSearch.value;
+      //alert("curItem = "+curItem+", optSearch = "+optSearch);
+      myForm.submit();
+  }
+
+  function deleteItem(){
+    if(confirm("คุณต้องการจะลบคำถามข้อนี้ใช่หรือไม่?")){
+      alert("ลบคำถามเรียบร้อยแล้ว!");
+    }
+  }
+
+function updateEquation(){
+  var myForm = document.getElementById("updateForm");
+  var myText = document.getElementById('sampleeditor');
+  var itemTag = document.getElementById('itemTag');
+
+  var t1 = myText.value.trim();
+  var t2 = "";
+  t2 = t1.replace(/\\/ig,'@@');
+  t2 = t1.replace(/\'/ig,'@!');
+
+  myForm.txtUpdate.value = t2;
+  myForm.itemTag.value = itemTag.value.trim();
+  //alert("txtUpdate = "+myForm.txtUpdate.value);
+
+  myForm.submit();
+}
+
+</script>
+<%- include('afterpart1.ejs') %>

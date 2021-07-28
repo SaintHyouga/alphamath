@@ -1,0 +1,147 @@
+<html lang="th">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Jap-Jap App เรียนรู้ภาษาญี่ปุ่น</title>
+    <style>
+        body{
+          background-color:#72A0C1;
+          margin-top:20px;
+          margin-left: 5%;
+        }
+        h1{
+          color:black;
+        }
+    .jp {
+      font-size: 20pt;
+    }
+    .furigana_enabled {
+      line-height: 2.1em;
+    }
+    .furigana_enabled .word {
+      margin-right: 0.5em;
+      position: relative;
+      top: 0.6em;
+      display: inline-block;
+      white-space: nowrap;
+    }
+    .furigana_enabled .kanji::before {
+      content: attr(data-reading);
+      color: green;
+      font-size: 50%;
+      line-height: 1;
+      position: absolute;
+      top: -0.5em;
+      white-space: nowrap;
+    }
+    .japanese_gothic {
+      font-family: "HiraKakuPro-W3", "Hiragino Kaku Gothic Pro W3", "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", "メイリオ", Meiryo, "游ゴシック", YuGothic, "ＭＳ Ｐゴシック", "MS PGothic", "ＭＳ ゴシック", "MS Gothic", sans-serif;
+    }
+
+  </style>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script>
+    $(function () {
+      $("#furigana").click(function () {
+        $(".jp").toggleClass("furigana_enabled", this.checked);
+      });
+    });
+
+    function showFurigana(){
+      //alert("Hi");
+      $(".jp").toggleClass("furigana_enabled", this.checked);
+    }
+
+  </script>
+  </head>
+  <body>
+<nav class="navbar navbar-expand-lg fixed-top" style="background-color:blue">
+        <div class="container-fluid-nav text-center">
+             <h1 class="text-center text-white">Jap-Jap</h1><span> bought to you by Wittaya Sensathien</span>
+        </div>
+</nav>
+<br />
+<br />
+<br />
+<br />
+<%
+
+  function jEval(m){
+    return "This is "+m;
+  }
+
+
+  //หาตำแหน่งของ @ ตัวเริ่มและสุดท้าย
+
+  let oriWord = "すき@#や#焼@き";
+  let tempWord = oriWord;
+  let myKey = /@/ig;
+
+  var result  = 0;
+  var myIndex =[];
+
+  while(result>-1){
+    result = tempWord.indexOf('@');
+    if(result>-1){
+      myIndex.push(result);
+      tempWord = tempWord.replace("@","k");
+    }
+  }
+
+  var mySplit = oriWord.split("@");
+  //var myTemp2 = "xxx and yyy";
+  var myTemp2 = "<span class='kanji' data-reading='xxx'>yyy</span>";
+  //k = '<span class="word">すき<span class="kanji" data-reading="や">焼</span>き</span><br />';
+%>
+<script>
+</script>
+
+<%= myIndex[0] %>
+<%= myIndex[1] %><br />
+<% mySplit.forEach(item=>{%>
+  <%= item+"-"; %>
+<%});%><br />
+
+<% var myJap  = "<span class='word'>" %>;
+
+<% mySplit.forEach(item=>{%>
+
+  <%
+  if(item.indexOf("#")>-1){
+  var kk = item.split("#");
+  var aa ="8";
+  var bb ="9";
+  aa = kk[1]
+  bb = kk[2];
+  //item = myTemp2.replace("xxx",aa)
+  myTemp2 = myTemp2.replace("xxx",aa);
+  myTemp2 = myTemp2.replace("yyy",bb);
+  //item = aa+"*"+bb;
+  item = myTemp2;
+  }
+  %>
+
+  <%= item+"-" %>
+  <% myJap +=item %>
+<%});%>
+<% myJap +="</span>" %>
+<br />
+<%= "myJap = "+myJap %>
+<br />
+
+
+<div class="container">
+  <div class="jp japanese_gothic furigana_enabled">
+    <span id="japWord"><%- myJap %></span>
+  </div>
+  <br />
+  <button class="btn btn-success" onClick="showFurigana()">แสดง Furigana</button>
+
+</div>
+
+  </body>
+</html>

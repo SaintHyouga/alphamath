@@ -1,0 +1,84 @@
+<%- include('beforepart1.ejs') %>
+<%- include('beforepart2.ejs') %>
+<style>
+  table{
+    margin-left:22px;
+  }
+  td:nth-child(odd){
+    text-align:left ;
+  }
+  td:nth-child(even){
+    padding-left:5px ;
+    padding-right:100px ;
+    text-align:left ;
+  }
+</style>
+<script>
+function printDiv(divName) {
+     var myStyle = `
+     <style>
+       body{
+         margin-left:60px;
+       }
+       table{
+         margin-left:22px;
+       }
+       td:nth-child(odd){
+         text-align:left ;
+       }
+       td:nth-child(even){
+         padding-left:5px ;
+         padding-right:100px ;
+         text-align:left ;
+       }
+     </style>`
+     var printContents = document.getElementById(divName).innerHTML;
+     var originalContents = document.body.innerHTML;
+     var txt = document.body;
+     txt.innerHTML = myStyle;
+     txt.innerHTML += printContents;
+     window.print();
+     txt.innerHTML = originalContents;
+}
+</script>
+<br />
+<div style="padding:3px;" class="sample-toolbar bg-success">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-white">การสร้างเอกสารด้วย Alaphamath.xyz</span>&nbsp;&nbsp;
+          <a onClick="printDiv('output')" href="javascript:void(0)" class="btn btn-primary btn-sm text-white"><i class="fas fa-print"></i></a>&nbsp;&nbsp;
+</div>
+<br />
+<div id="output" class="bg-white pl-5">
+<div style="width:80%">
+  <h2 class="text-primary"><b>Alphamath.xyz</b></h2>
+  Alphamath เป็นแพลตฟอร์มสำหรับการสร้างสื่อการเรียนการสอนคณิตศาสตร์
+  โดยผู้ใช้งานสามารถเอกสารโดยใช้คำสั่งภาษา $\LaTeX$ ควบคู่กับภาษา HTML
+  หากผู้ใช้งานมีความรู้พื้นฐานทั้งสองภาษาบ้าง ก็จะสามารถประยุกต์ใช้งานได้อย่างหลากหลาย
+  สำหรับผู้ที่ไม่รู้จักกับการใช้งานคำสั่งของภาษาดังกล่าว ก็ไม่ต้องกังวล เพราะเราจะอธิบายวิธีการสร้างเอกสาร
+  ดังต่อไปนี้
+</div>
+<br />
+<h2 class="text-primary"><b>การใช้งานเบื้องต้น</b></h2>
+<h3 class="text-primary"><b>1. เอกสารชิ้นแรกของฉัน</b></h3>
+สำหรับการสร้างเอกสาร ให้คลิกที่แท็บ "สร้างเอกสาร" <br />
+มาเริ่มด้วยการสร้างสมการคณิตศาสตร์ง่ายๆ คือ $y = x^2$<br />
+มีวิธีการสร้างดังนี้ <br />
+<b>วิธีที่ 1</b> พิมพ์คำสั่งด้วยตนเองทั้งหมด<br />
+<ol>
+  <li>พิมพ์คำสั่ง: \$y = x^2\$ ลงใน input box</li>
+  <li>กดปุ่ม <button class="btn btn-success btn-sm"><i class="fa fa-eye">Preview</i></button></li>
+  <li>จะเห็นผลลัพธ์เป็น $y = x^2$</li>
+  </ol><br />
+
+  <b>วิธีที่ 2</b> ใช้ปุ่มคำสั่งในแถบคำสั่ง<br />
+  <ol>
+    <li>กดปุ่ม <button class="btn btn-primary btn-sm">\$...\$</button></li>
+    <li>พิมพ์ "y = x" ให้เคอร์เซอร์อยู่หลังตัว x</li>
+    <li>กดปุ่ม <button class="btn btn-primary btn-sm">$x^2$</button> </li>
+    <li>ใน input box จะได้คำสั่ง: \$y = x^2\$ เช่นเดียวกับวิธีที่ 1</li>
+    <li>กดปุ่ม <button class="btn btn-success btn-sm"><i class="fa fa-eye">Preview</i></button></li>
+    <li>จะเห็นผลลัพธ์เป็น $y = x^2$</li>
+  </ol>
+</div>
+<br />
+
+<%- include('afterpart1.ejs') %>

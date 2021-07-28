@@ -1,0 +1,23 @@
+<%- include('beforepart.ejs') %>
+  <h1 class='text-center'>Nodejs</h1>
+  <h2>I am <%= title %></h2>
+<a class="btn btn-primary text-white" href="/about">About Us</a>
+<a class="btn btn-primary text-white" href="/form1">Test Form</a>
+<a class="btn btn-primary text-white" href="/mathjax">MathJax</a>
+<table class="table table-responsive">
+  <thead>
+    <tr>
+      <th>ลำดับที่</th>
+      <th>คำศัพท์</th>
+      <th>ความหมาย</th>
+      </tr>
+    </thead>
+<% items.forEach(item => {%>
+  <tr>
+    <td><%= item.no %></td>
+    <td><%= item.wordInKanji %></td>
+    <td><%= item.meaning %></td>
+    </tr>
+<%});%>
+</table>
+<%- include('afterpart.ejs') %>

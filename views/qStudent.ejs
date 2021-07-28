@@ -1,0 +1,68 @@
+<%- include('beforepart1.ejs') %>
+<%- include('beforepart2.ejs') %>
+<style>
+  table{
+    margin-left:22px;
+  }
+  td:nth-child(odd){
+    text-align:left ;
+  }
+  td:nth-child(even){
+    padding-left:5px ;
+    padding-right:100px ;
+    text-align:left ;
+  }
+  #output{
+    line-height:2;
+  }
+</style>
+<script>
+function printDiv(divName) {
+     var myStyle = `
+     <style>
+       body{
+         margin-left:60px;
+         line-height:2;     
+       }
+       table{
+         margin-left:22px;
+       }
+       td:nth-child(odd){
+         text-align:left ;
+       }
+       td:nth-child(even){
+         padding-left:5px ;
+         padding-right:100px ;
+         text-align:left ;
+       }
+     </style>`
+     var printContents = document.getElementById(divName).innerHTML;
+     var originalContents = document.body.innerHTML;
+     var txt = document.body;
+     txt.innerHTML = myStyle;
+     txt.innerHTML += printContents;
+     window.print();
+     txt.innerHTML = originalContents;
+}
+</script>
+<br />
+<% if(txtOutput==0){%>
+<% txtOutput = "<span class='text-primary'>- ยังไม่มีการนำเสนอ -</span>" %>
+<%}else{%>
+  <%  txtOutput = txtOutput.replace(/@@/ig,"\\")  %>
+  <%  txtOutput = txtOutput.replace(/@!/ig,"\'")  %>
+<%}%>
+        <div style="padding:3px;" class="sample-toolbar bg-success">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-white">การนำเสนอ</span>&nbsp;&nbsp;
+          <a onClick="printDiv('output')" href="javascript:void(0)" class="btn btn-primary btn-sm text-white"><i class="fas fa-print"></i></a>&nbsp;&nbsp;
+          <a href="/qStudent" class="text-white btn btn-warning btn-sm">Refresh</a>&nbsp;&nbsp;
+        </div>
+        <div style="font-size:18pt!important" id="output" class="bg-white pl-5">
+          <br />
+          <%- txtOutput %>
+          <br /><br />
+        </div>
+        <br />
+        <div>
+          </div>
+<%- include('afterpart1.ejs') %>

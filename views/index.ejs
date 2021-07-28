@@ -1,0 +1,31 @@
+<%- include('beforepart1.ejs') %>
+      <!-- Main component for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <h1 class='text-center'><%=title%></h1>
+      <a class="btn btn-primary text-white" href="/">Back</a>
+      <h1 class="text-success">Test MathJax</h1>
+      \(\sum_{n=1}^\infty \frac{1}{n^6+1} = \frac{\pi}{6}\left( \coth\pi + \frac{\sinh\pi + \sqrt 3\sin\pi\sqrt 3}{\cosh\pi - \cos\pi\sqrt 3}\right) - \frac{1}{2}\)
+      <br />
+      \[\sum_{n=1}^\infty \frac{1}{n^6+1} = \frac{\pi}{6}\left( \coth\pi + \frac{\sinh\pi + \sqrt 3\sin\pi\sqrt 3}{\cosh\pi - \cos\pi\sqrt 3}\right) - \frac{1}{2}\]
+      <br />
+      y = x^2<br />
+      \[y = x^2\]<br />
+      <%= "$"+"สมการพาราโบลา: y = x^2"+"$" %>
+
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>ลำดับที่</th>
+            <th>สมการ</th>
+            </tr>
+          </thead>
+      <% items.forEach(item => {%>
+        <tr>
+          <td><%= item.no %></td>
+          <td><%= "$"+item.eq+"$" %></td>
+          </tr>
+      <%});%>
+      </table>
+
+      </div>
+<%- include('afterpart1.ejs') %>

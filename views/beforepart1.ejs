@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link rel="icon" href="../../favicon.ico" />
+
+    <title>Alphamath: Math Learning Space for math lovers</title>
+
+    <!-- Bootstrap core CSS -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.lineicons.com/3.0/lineicons.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <script
+      src="https://kit.fontawesome.com/cd4e53bed2.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@600&family=Recursive&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        font-family: 'Bai Jamjuree', sans-serif;
+      }
+    </style>
+    <!-- mathjax config similar to math.stackexchange -->
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          processEscapes: true
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+    </script>
+    <script
+      type="text/javascript"
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+    ></script>
+  </head>
+
+  <body>
+    <nav
+      class="navbar navbar-expand-lg fixed-top navbar-light"
+      style="background-color: #49b39a"
+    >
+      <a class="navbar-brand" href="/mbanking"
+        ><span style="font-size: 20pt">$\alpha$</span> Alphamath</a
+      >
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link text-white text-bold" href="/mbanking"
+              >สร้างเอกสาร</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white text-bold" href="/qTeacher">จัดการ</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white text-bold" href="/qStudent">นำเสนอ</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white text-bold" href="/help">การใช้งาน</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white text-bold" href="/about"
+              >เกี่ยวกับโปรเจ็ค</a
+            >
+          </li>
+        </ul>
+        <% if(locals.username){%> <%= "ผู้ใช้งาน:"+username %>&nbsp;&nbsp;
+        <form class="form-inline my-2 my-lg-0">
+          <a
+            class="btn btn-danger nav-link text-white text-bold btn-sm"
+            href="/logout"
+            >ออกจากระบบ</a
+          >
+        </form>
+        <%}else{%>
+        <form class="form-inline my-2 my-lg-0">
+          <a
+            class="btn btn-success nav-link text-white text-bold btn-sm"
+            href="/login"
+            >เข้าสู่ระบบ</a
+          >
+        </form>
+        <%}%>
+      </div>
+    </nav>
+    <div class=""></div>
+  </body>
+</html>

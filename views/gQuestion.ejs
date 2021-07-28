@@ -1,0 +1,264 @@
+<%- include('beforepart1.ejs') %>
+<%- include('beforepart2.ejs') %>
+<style>
+input {
+  margin-bottom:10px;
+}
+</style>
+
+<div class="jumbotron">
+  <% if(!locals.codeOperation){%>
+    <% groupName = "" %>
+    <% codeOperation = "" %>
+    <% testArray = "" %>
+    <%= "codeOperation = "+codeOperation %>
+  <%}%>
+  <script>
+  var testArray = [];
+  </script>
+
+  <%= "groupName: "+groupName %><br />
+  <%= "codeOperation: "+codeOperation %><br />
+  <%= "testArray: "+testArray %><br />
+
+  <script>
+  var myArray = <%- JSON.stringify(testArray) %>;
+  //alert("myArray "+myArray);
+
+  if(myArray !=""){
+    var k = myArray.split(",");
+    k.forEach(item => {
+      //alert("item = "+parseInt(item));
+      testArray.push(parseInt(item));
+    });
+  }
+
+  /*
+  alert("testArray");
+  testArray.forEach(item => {
+      alert("item = "+item);
+  });
+  */
+
+  //alert("testArray = "+testArray);
+
+  </script>
+
+<h3 class="text-success">:: จัดชุดข้อสอบ :: &nbsp;&nbsp;</h3>
+<div>
+<form name="myForm" id="myForm" method="post" action="/gQuestion">
+  <span>ชื่อชุดข้อสอบ: <input name="groupName" value="<%= groupName%>" required/><button class="btn btn-primary btn-sm text-white">เปิด</button></span><br />
+  <b>หมายเลขข้อสอบที่เลือก: </b><span id ="myList"></span><br />
+  <input type="hidden" name="testArray"/>
+  <input type="hidden" name="codeOperation"/>
+  <a onclick="viewQuestion()" class="btn btn-primary btn-sm text-white">ดูข้อสอบ</a>
+  <button onclick="findItem()" class="btn btn-primary btn-sm text-white">ค้นหา</button>
+  <button onclick="saveQuestion()" class="btn btn-success btn-sm">บันทึก</button>
+</form>
+<script>
+let myList = document.getElementById('myList');
+let myItem  = testArray.join();
+myList.innerHTML = myItem;
+</script>
+
+</div>
+<hr />
+<% if(codeOperation==3){%>
+<%= "บันทึกข้อมูล:"+testArray %>
+<%}else if(codeOperation==1){%>
+<%= "ข้อสอบในรายการ:"+testArray %>
+<%}else{%>
+  <form id="myForm2" name="myForm2" method="post" action="/gQuestion">
+    ตัวเลือกในการค้นหา<br />
+    <select id="optSearch" name="optSearch">
+    <%
+    options = ["","หมายเลขข้อสอบ","คำสำคัญ"];
+    for (var i = 1; i <=2; i++ )
+    {
+        %><option value="<%= i %>" <%= ( optSearch == i ) ? "selected" : ""; %>><%=options[i] %></option><%
+    }
+    %>
+    </select>
+    &nbsp;
+     <input name="curItem" value="<%= curItem %>" type="text"/>
+    <input type="hidden" name="codeOperation"/>
+    <input type="hidden" name="groupName"/>
+    <input type="hidden" name="testArray"/>
+     <button onclick="findItem2()" class="btn btn-primary">ค้นหา</button>
+    </form>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>หมายเลขข้อสอบ</th>
+          <th>ข้อสอบ</th>
+          <th>คำสำคัญ</th>
+          <th>การจัดการ</th>
+          </tr>
+        </thead>
+    <% items.forEach(item => {%>
+      <tr>
+        <td><%= item.itemId %></td>
+        <td><%- item.itemContent.replace(/@@/ig,"\\").replace(/@!/ig,"\'") %></td>
+        <td><%= item.itemTag %></td>
+        <td>
+              <button onclick="removeItem(<%= item.itemId %>)" class="btn text-white btn-danger btn-sm">นำออก</button>&nbsp;
+              <button onclick="addItem(<%= item.itemId %>)" class="btn text-white btn-success btn-sm">เพิ่มในรายการ</button>
+        </td>
+        </tr>
+    <%});%>
+    </table>
+<%}%>
+
+
+<script>
+function addItem(myId){
+  let myList = document.getElementById('myList');
+  testArray.push(myId);
+
+  /*
+  alert("testArray length:"+testArray.length);
+
+  alert("testArray");
+  testArray.forEach(item => {
+      alert("item = "+item);
+  });
+  */
+
+  let myItem  = testArray.join();
+  myList.innerHTML = myItem;
+}
+
+function removeItem(myId){
+  let myList = document.getElementById('myList');
+  //alert("testArray length:"+testArray.length);
+  testArray = removeArray(testArray,myId);
+  //alert("testArray length:"+testArray.length);
+  /*
+  alert("testArray");
+  testArray.forEach(item => {
+      alert("item = "+item);
+  });
+  */
+
+  let myItem  = testArray.join();
+  myList.innerHTML = myItem;
+}
+
+function removeArray(arr, item){
+ return arr.filter(f => f !== item)
+}
+
+function viewQuestion(){
+  //alert("View question");
+  var myList = document.getElementById('myList');
+  //alert("myList = "+myList.innerHTML);
+
+  var myForm = document.getElementById('myForm');
+
+  myForm.testArray.value = myList.innerHTML;
+  myForm.codeOperation.value = '1';
+
+
+  var k1 = myForm.testArray.value;
+  var k2 = myForm.codeOperation.value;
+  var k3 = myForm.groupName.value;
+
+  //alert("myList2 = "+myList.innerHTML);
+
+  if(k3==""){
+    alert("กรุณาใส่ชื่อชุดข้อสอบ");
+  }else{
+      myForm.submit();
+  }
+
+}
+
+function findItem(){
+  var myList = document.getElementById('myList');
+  var myForm = document.getElementById('myForm');
+
+  myForm.testArray.value = myList.innerHTML;
+  myForm.codeOperation.value = '2';
+  myForm.groupName.value = myForm.groupName.value;
+
+  var k1 = myForm.testArray.value;
+  var k2 = myForm.codeOperation.value;
+  var k3 = myForm.groupName.value;
+
+  if(k3==""){
+    alert("กรุณาใส่ชื่อชุดข้อสอบ");
+  }else{
+      myForm.submit();
+  }
+
+}
+
+
+function findItem2(){
+  alert("finItem2");
+  var myList = document.getElementById('myList');
+  var myForm2 = document.getElementById('myForm2');
+  var myForm = document.getElementById('myForm');
+
+  myForm2.testArray.value = myList.innerHTML;
+  myForm2.codeOperation.value = '2';
+  myForm2.groupName.value = myForm.groupName.value;
+
+
+
+  var k1 = myForm2.testArray.value;
+  var k2 = myForm2.codeOperation.value;
+  var k3 = myForm2.groupName.value;
+
+
+  //alert("k1  ="+k1);
+  //alert("k3  ="+k3);
+
+  if(k3==""){
+    alert("กรุณาใส่ชื่อชุดข้อสอบ");
+  }else{
+      myForm2.submit();
+  }
+
+}
+
+function saveQuestion(){
+
+  var myList = document.getElementById('myList');
+  //alert("myList = "+myList.innerHTML);
+
+  var myForm = document.getElementById('myForm');
+
+  myForm.testArray.value = myList.innerHTML;
+  myForm.codeOperation.value = '3';
+
+
+  var k1 = myForm.testArray.value;
+  var k2 = myForm.codeOperation.value;
+  var k3 = myForm.groupName.value;
+
+  //alert("myList2 = "+myList.innerHTML);
+
+  if(k3==""){
+    alert("กรุณาใส่ชื่อชุดข้อสอบ");
+  }else{
+      myForm.submit();
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+</script>
+<%- include('afterpart1.ejs') %>

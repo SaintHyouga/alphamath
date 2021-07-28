@@ -1,0 +1,92 @@
+<%- include('beforepart1.ejs') %>
+<%- include('beforepart2.ejs') %>
+<style>
+  table{
+    margin-left:22px;
+  }
+  td:nth-child(odd){
+    text-align:left ;
+  }
+  td:nth-child(even){
+    padding-left:5px ;
+    padding-right:100px ;
+    text-align:left ;
+  }
+</style>
+<script>
+function printDiv(divName) {
+     var myStyle = `
+     <style>
+       body{
+         margin-left:60px;
+       }
+       table{
+         margin-left:22px;
+       }
+       td:nth-child(odd){
+         text-align:left ;
+       }
+       td:nth-child(even){
+         padding-left:5px ;
+         padding-right:100px ;
+         text-align:left ;
+       }
+     </style>`
+     var printContents = document.getElementById(divName).innerHTML;
+     var originalContents = document.body.innerHTML;
+     var txt = document.body;
+     txt.innerHTML = myStyle;
+     txt.innerHTML += printContents;
+     window.print();
+     txt.innerHTML = originalContents;
+}
+</script>
+<br />
+      <form id="myform" name="myform" method="post" action="/mbanking">
+        <%- include('myEditor.ejs') %>
+      <input id="codeSave" type="hidden" name="codeSave" value="0"/>
+      <input type="hidden" name="curItem" value="<%= curItem %>"/>
+      </form>
+      <div class="sample-toolbar bg-success">
+        <span class="text-white">ผลลัพธ์ &nbsp;&nbsp; (ต้องการ capture กด Window key + Shift + S)</span>
+      </div>
+      <div id="output" class="bg-white pl-5">
+        <br />
+        <%- txtInput %>
+        <br /><br />
+      </div>
+      <br/>
+
+      <%# "codeSave = "+codeSave %>
+      <%# "curItem = "+curItem %>
+      <br /><br />
+      <form id="myform2" name="myform2" method="post" action="/mbanking">
+      <input id="toUndo" type="hidden" name="toUndo" value="1"/>
+      <input type="hidden" name="curItem" value="<%= curItem %>"/>
+      </form>
+<script>
+  function undoEquation(){
+     var myform = document.getElementById('myform2');
+     myform.submit();
+  }
+
+function saveEquation(){
+   var myform = document.getElementById('myform');
+   var myText = document.getElementById('sampleeditor');
+   document.getElementById('codeSave').value = 1;
+   var t1 = myText.value.trim();
+   //alert("t1 = "+t1);
+   var t2 = "";
+   t2 = t1.replace(/\\/ig,'@@');
+   t2 = t1.replace(/\'/ig,'@!');
+   //alert("t2withReplace = "+t2);
+   myText.innerHTML = t2.trim();
+
+   //alert("Test");
+   //myform.codeSave.value= 1;
+   //alert("codeSave = 1!");
+   myform.submit();
+}
+</script>
+
+<%- include('afterpart1.ejs') %>
