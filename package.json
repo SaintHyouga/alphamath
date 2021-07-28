@@ -9,11 +9,12 @@
     "build": "./node_modules/parcel-bundler/bin/cli.js public/index.js --out-dir public/dist"
   },
   "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^10.0.0",
     "ejs": "^2.6.2",
     "express": "^4.17.1",
-    "mysql2": "^2.2.5",
     "express-session": "^1.17.0",
-    "cookie-parser": "^1.4.5",
+    "mysql2": "^2.2.5",
     "nodemon": "^2.0.7"
   },
   "author": "",
